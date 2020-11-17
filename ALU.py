@@ -1,7 +1,6 @@
 import os
 import random as rnd
 from exceptions import *
-from prettytable import PrettyTable
 
 operaciones = [
     "DIV", "ADD", "SUB",
@@ -145,24 +144,21 @@ def mostrar_tabla():
     fila_titulos = (s * 6) + v + (s * 30) + "Stack" + (s * 30) + \
         v + (s * 14) + "Flags" + (s * 13) + v + "\n"
 
-    tabla_separador = c + (h * 5) + c + (((h * 10) + c) * 9) + "\n"
-    celdas_dir = v + " Dir " + v + \
+    fila_separador = c + (h * 5) + c + (((h * 10) + c) * 9) + "\n"
+    fila_dir = v + " Dir " + v + \
         (("   %s    " + v) * 6) + \
         (("    %s    " + v) * 3) + "\n"
-    celdas_val = v + " Val " + v + (" %s " + v) * 9 + "\n"
+    file_val = v + " Val " + v + (" %s " + v) * 9 + "\n"
 
     dirs = list()
     vals = list()
-    for k, v in stack.items():
-        dirs.append(k)
-        vals.append(v[2:])
-    for k, v in flags.items():
+    for k, v in dict(stack, **flags).items():
         dirs.append(k)
         vals.append(v[2:])
 
-    tabla = fila_inicio + fila_titulos + tabla_separador + \
-        (celdas_dir % tuple(dirs)) + tabla_separador + \
-        (celdas_val % tuple(vals)) + tabla_separador
+    tabla = fila_inicio + fila_titulos + fila_separador + \
+        (fila_dir % tuple(dirs)) + fila_separador + \
+        (file_val % tuple(vals)) + fila_separador
 
     print(tabla)
 
