@@ -1,6 +1,7 @@
 import os
 import random as rnd
 from exceptions import *
+from prettytable import PrettyTable
 
 operaciones = [
     "DIV", "ADD", "SUB",
@@ -16,9 +17,9 @@ stack = {
     "06h": "0b0"
 }
 flags = {
-    "SF": 0,
-    "ZF": 0,
-    "OF": 0
+    "SF": '0b0',
+    "ZF": '0b0',
+    "OF": '0b0'
 }
 
 
@@ -112,10 +113,13 @@ def generar_stack():
     for key in stack.keys():
         stack[key] = to_bin(rnd.randint(0, (2**8)-1))
 
+    for key in flags.keys():
+        flags[key] = to_bin(0)
+
 
 def to_bin(n):
     """
-    Metodo que convierte un numero a binario 
+    Metodo que convierte un numero a binario
     y lo normaliza a una longitud de 8 bits
     """
     bin_raw = bin(n)
@@ -127,18 +131,51 @@ def to_bin(n):
     return res
 
 
+def mostrar_tabla():
+    """
+    Metodo que muestra la informacion del stack y los flags
+    en formato de tabla
+    """
+    v = "│"
+    h = "─"
+    c = "×"
+    s = " "
+
+    fila_inicio = (s * 6) + c + (h * 65) + c + (h * 32) + c + "\n"
+    fila_titulos = (s * 6) + v + (s * 30) + "Stack" + (s * 30) + \
+        v + (s * 14) + "Flags" + (s * 13) + v + "\n"
+
+    tabla_separador = c + (h * 5) + c + (((h * 10) + c) * 9) + "\n"
+    celdas_dir = v + " Dir " + v + \
+        (("   %s    " + v) * 6) + \
+        (("    %s    " + v) * 3) + "\n"
+    celdas_val = v + " Val " + v + (" %s " + v) * 9 + "\n"
+
+    dirs = list()
+    vals = list()
+    for k, v in stack.items():
+        dirs.append(k)
+        vals.append(v[2:])
+    for k, v in flags.items():
+        dirs.append(k)
+        vals.append(v[2:])
+
+    tabla = fila_inicio + fila_titulos + tabla_separador + \
+        (celdas_dir % tuple(dirs)) + tabla_separador + \
+        (celdas_val % tuple(vals)) + tabla_separador
+
+    print(tabla)
+
+
 def menu():
     """
     Metodo que muestra el menu principal de la app
     """
     while True:
-        print("Stack:")
-        print(stack)
-        print("Flags:")
-        print(flags)
+        mostrar_tabla()
+        print("ALU > ", end="")
+        instruccion = input().lower().strip()
         print()
-
-        instruccion = input("ALU > ").lower().strip()
         procesar(instruccion)
 
 
