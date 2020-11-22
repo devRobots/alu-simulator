@@ -15,6 +15,9 @@ stack = {
     "05h": "0b0",
     "06h": "0b0"
 }
+# SF = Resultado negativo
+# ZF = Resultado cero 
+# CF = Acarreo
 flags = {
     "SF": '0b0',
     "ZF": '0b0',
@@ -53,6 +56,33 @@ def operacion_div(params):
     else:
         raise ParametrosIncorrectosExcepcion("DIV", 2)
 
+def operacion_sub(params):
+    """
+    Metodo que resta 2 posiciones de memoria y
+    guarda el resultado en la primera
+    """
+    if len(params) == 2:
+        a = obtener_dir(params[0])
+        b = obtener_dir(params[1])
+
+        res = to_bin(a - b)
+        stack[params[0]] = res
+    else:
+        raise ParametrosIncorrectosExcepcion("SUB", 2)
+
+def operacion_add(params):
+    """
+    Metodo que suma 2 posiciones de memoria y
+    guarda el resultado en la primera
+    """
+    if len(params) == 2:
+        a = obtener_dir(params[0])
+        b = obtener_dir(params[1])
+
+        res = to_bin(a + b)
+        stack[params[0]] = res
+    else:
+        raise ParametrosIncorrectosExcepcion("ADD", 2)
 
 def operacion_neg(params):
     """
@@ -67,6 +97,33 @@ def operacion_neg(params):
     else:
         raise ParametrosIncorrectosExcepcion("NEG", 1)
 
+def operacion_and(params):
+    """
+    Metodo que realiza la operación AND entre 2 posiciones
+    de memoria y guarda el resultado en la primera
+    """
+    if len(params) == 2:
+         a = obtener_dir(params[0])
+         b = obtener_dir(params[1])
+
+         res = to_bin(a & b)
+         stack[params[0]] = res
+    else:
+        raise ParametrosIncorrectosExcepcion("AND", 2)
+
+def operacion_or(params):
+    """
+    Metodo que realiza la operación OR entre 2 posiciones
+    de memoria y guarda el resultado en la primera
+    """
+    if len(params) == 2:
+         a = obtener_dir(params[0])
+         b = obtener_dir(params[1])
+
+         res = to_bin(a | b)
+         stack[params[0]] = res
+    else:
+        raise ParametrosIncorrectosExcepcion("OR", 2)
 
 def reset(params):
     """
@@ -87,11 +144,11 @@ def procesar(entrada):
 
     switch = {
         "DIV": operacion_div,
-        # "ADD": operacion_add,
-        # "SUB": operacion_sub,
+        "ADD": operacion_add,
+        "SUB": operacion_sub,
         "NEG": operacion_neg,
-        # "AND": operacion_and,
-        # "OR": operacion_or,
+        "AND": operacion_and,
+        "OR": operacion_or,
         "RST": reset,
         "EXIT": exit
     }
