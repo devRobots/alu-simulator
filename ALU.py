@@ -71,7 +71,7 @@ def operacion_sub(params):
 
         if b > a:
             flags["SF"] = to_bin(1)
-            stack[params[0]] = to_bin(~(a - b))
+            stack[params[0]] = to_bin((a - b) + 1)
         else:
             stack[params[0]] = res
     else:
@@ -113,7 +113,7 @@ def operacion_neg(params):
         neg = to_bin(~pos)
         stack[params[0]] = neg
 
-        if not res:
+        if not neg:
             flags["ZF"] = to_bin(1)
 
         flags["SF"] = to_bin(1)
@@ -130,10 +130,11 @@ def operacion_and(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
+        res = to_bin(a & b)
+
         if not res:
             flags["ZF"] = to_bin(1)
 
-        res = to_bin(a & b)
         stack[params[0]] = res
     else:
         raise ParametrosIncorrectosExcepcion("AND", 2)
@@ -148,10 +149,11 @@ def operacion_or(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
+        res = to_bin(a | b)
+
         if not res:
             flags["ZF"] = to_bin(1)
 
-        res = to_bin(a | b)
         stack[params[0]] = res
     else:
         raise ParametrosIncorrectosExcepcion("OR", 2)
