@@ -208,8 +208,8 @@ def mostrar_tabla():
     _border_format = st.CIAN + "%s" + st.RESET
     v = _border_format % "│"
     h = _border_format % "─"
-    c = _border_format % "×"
-    s = _border_format % " "
+    c = st.MORADO + "×" + st.RESET
+    s = " "
 
     fila_inicio = (s * 6) + c + (h * 65) + c + (h * 32) + c + "\n"
     fila_titulos = (s * 6) + v + (s * 30) + st.VERDE + st.NEGRITA + \
