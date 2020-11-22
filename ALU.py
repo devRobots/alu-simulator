@@ -75,6 +75,7 @@ def reset(params):
     if not params:
         os.system("cls" if os.name == 'nt' else "clear")
         generar_stack()
+        mostrar_operaciones()
     else:
         raise ParametrosIncorrectosExcepcion("RST", 0)
 
@@ -170,10 +171,24 @@ def mostrar_tabla():
     print(tabla)
 
 
+def mostrar_operaciones():
+    """
+    Metodo que muestra las operaciones del programa
+    """
+    print("OPERACIONES:",end="")
+    ops = operaciones
+    for i in range(len(ops)):
+        if i % 3 == 0:
+            print()
+        print(ops[i] + "\t" + to_bin(i), end="\t")
+    print("\n")
+
+
 def menu():
     """
     Metodo que muestra el menu principal de la app
     """
+    mostrar_operaciones()
     while True:
         mostrar_tabla()
         print("ALU > ", end="")
