@@ -130,11 +130,11 @@ def operacion_and(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
-         if not res:
+        if not res:
             flags["ZF"] = to_bin(1)
 
-         res = to_bin(a & b)
-         stack[params[0]] = res
+        res = to_bin(a & b)
+        stack[params[0]] = res
     else:
         raise ParametrosIncorrectosExcepcion("AND", 2)
 
@@ -148,11 +148,11 @@ def operacion_or(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
-         if not res:
+        if not res:
             flags["ZF"] = to_bin(1)
 
-         res = to_bin(a | b)
-         stack[params[0]] = res
+        res = to_bin(a | b)
+        stack[params[0]] = res
     else:
         raise ParametrosIncorrectosExcepcion("OR", 2)
 
