@@ -5,7 +5,7 @@ from exceptions import *
 operaciones = [
     "DIV", "ADD", "SUB",
     "NEG", "AND", "OR",
-    "CLR", "EXIT"
+    "RST", "EXIT"
 ]
 stack = {
     "01h": "0b0",
@@ -18,7 +18,7 @@ stack = {
 flags = {
     "SF": '0b0',
     "ZF": '0b0',
-    "OF": '0b0'
+    "CF": '0b0'
 }
 
 
@@ -43,8 +43,13 @@ def operacion_div(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
-        res = to_bin(a // b)
-        stack[params[0]] = res
+        res = a // b
+
+        if not res:
+            flags["ZF"] = to_bin(1)
+
+        res_bin = to_bin(res)
+        stack[params[0]] = res_bin
     else:
         raise ParametrosIncorrectosExcepcion("DIV", 2)
 
@@ -58,18 +63,20 @@ def operacion_neg(params):
         pos = obtener_dir(params[0])
         neg = to_bin(~pos)
         stack[params[0]] = neg
+        flags["SF"] = to_bin(1)
     else:
         raise ParametrosIncorrectosExcepcion("NEG", 1)
 
 
-def limpiar(params):
+def reset(params):
     """
-    Metodo que limpia la consola
+    Metodo que reinicia los valores y limpia la consola
     """
     if not params:
-        os.system("cls" if os.name == 'nt' else "cls")
+        os.system("cls" if os.name == 'nt' else "clear")
+        generar_stack()
     else:
-        raise ParametrosIncorrectosExcepcion("CLR", 0)
+        raise ParametrosIncorrectosExcepcion("RST", 0)
 
 
 def procesar(entrada):
@@ -85,7 +92,7 @@ def procesar(entrada):
         "NEG": operacion_neg,
         # "AND": operacion_and,
         # "OR": operacion_or,
-        "CLR": limpiar,
+        "RST": reset,
         "EXIT": exit
     }
 

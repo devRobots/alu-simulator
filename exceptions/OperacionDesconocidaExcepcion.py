@@ -5,12 +5,15 @@ class OperacionDesconocidaExcepcion(Exception):
 
     def __init__(self, operacion):
         """
-        docstring
+        Clase de Excepcion de operacion desconocida
+
+        Parameters:
+            operacion(str): Nombre de la operacion
         """
         self.error = "No se reconoce la operacion: '%s'" % operacion
 
     def __str__(self):
         """
-        docstring
+        Metodo toString
         """
         return self.error

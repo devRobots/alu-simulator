@@ -1,8 +1,3 @@
-"""
-Hola
-"""
-
-
 class ParametrosIncorrectosExcepcion(Exception):
     """
     Clase de Excepcion de cantidad de parametros
@@ -13,8 +8,8 @@ class ParametrosIncorrectosExcepcion(Exception):
         Clase de Excepcion de cantidad de parametros
 
         Parameters:
-            operacion (str): hola xd
-            cant_params (int): xd
+            operacion(str): Nombre de la operacion,
+            cant_params(int): Cantidad de parametros de la operacion
         """
         self.error = "La operacion %s " % operacion
         if cant_params:
@@ -27,6 +22,6 @@ class ParametrosIncorrectosExcepcion(Exception):
 
     def __str__(self):
         """
-        docstring
+        Metodo toString
         """
         return self.error
