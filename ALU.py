@@ -65,7 +65,15 @@ def operacion_sub(params):
         b = obtener_dir(params[1])
 
         res = to_bin(a - b)
-        stack[params[0]] = res
+
+        if not res:
+            flags["ZF"] = to_bin(1)
+
+        if b > a:
+            flags["SF"] = to_bin(1)
+            stack[params[0]] = to_bin(~(a - b))
+        else:
+            stack[params[0]] = res
     else:
         raise ParametrosIncorrectosExcepcion("SUB", 2)
 
@@ -80,6 +88,16 @@ def operacion_add(params):
         b = obtener_dir(params[1])
 
         res = to_bin(a + b)
+
+        if not res:
+            flags["ZF"] = to_bin(1)
+
+        if len(res) > 8:
+            total = len(res) - 8
+            res[total:]
+
+            flags["CF"] = to_bin(1)
+
         stack[params[0]] = res
     else:
         raise ParametrosIncorrectosExcepcion("ADD", 2)
@@ -94,6 +112,10 @@ def operacion_neg(params):
         pos = obtener_dir(params[0])
         neg = to_bin(~pos)
         stack[params[0]] = neg
+
+        if not res:
+            flags["ZF"] = to_bin(1)
+
         flags["SF"] = to_bin(1)
     else:
         raise ParametrosIncorrectosExcepcion("NEG", 1)
@@ -108,8 +130,11 @@ def operacion_and(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
-        res = to_bin(a & b)
-        stack[params[0]] = res
+         if not res:
+            flags["ZF"] = to_bin(1)
+
+         res = to_bin(a & b)
+         stack[params[0]] = res
     else:
         raise ParametrosIncorrectosExcepcion("AND", 2)
 
@@ -123,8 +148,11 @@ def operacion_or(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
-        res = to_bin(a | b)
-        stack[params[0]] = res
+         if not res:
+            flags["ZF"] = to_bin(1)
+
+         res = to_bin(a | b)
+         stack[params[0]] = res
     else:
         raise ParametrosIncorrectosExcepcion("OR", 2)
 
