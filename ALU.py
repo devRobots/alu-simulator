@@ -110,8 +110,9 @@ def operacion_neg(params):
     """
     if len(params) == 1:
         pos = obtener_dir(params[0])
-        neg = to_bin(~pos)
-        stack[params[0]] = neg
+        neg = ~pos
+        res = to_bin(neg)
+        stack[params[0]] = res
 
         if not neg:
             flags["ZF"] = to_bin(1)
@@ -163,12 +164,14 @@ def reset(params):
     """
     Metodo que reinicia los valores y limpia la consola
     """
-    if not params:
+    if len(params) == 0 or len(params) == 1:
         os.system("cls" if os.name == 'nt' else "clear")
-        generar_stack()
+        iniciar_flags()
+        if not params or params.pop() == '1':
+            generar_stack()
         mostrar_operaciones()
     else:
-        raise ParametrosIncorrectosExcepcion("RST", 0)
+        raise ParametrosIncorrectosExcepcion("RST", 1)
 
 
 def procesar(entrada):
@@ -205,15 +208,20 @@ def procesar(entrada):
               st.NORMAL + st.ROJO + str(err) + st.RESET + "\n")
 
 
+def iniciar_flags():
+    """
+    Metodo que inicializa los flags en 0
+    """
+    for key in flags.keys():
+        flags[key] = to_bin(0)
+
+
 def generar_stack():
     """
     Metodo que genera el stack de forma aletaria
     """
     for key in stack.keys():
         stack[key] = to_bin(rnd.randint(0, (2**8)-1))
-
-    for key in flags.keys():
-        flags[key] = to_bin(0)
 
 
 def to_bin(n):
@@ -276,7 +284,7 @@ def mostrar_operaciones():
         if i % 3 == 0:
             print()
         print(st.NEGRITA + st.AZUL + ops[i] +
-              st.RESET + "\t" + to_bin(i), end="\t")
+              st.RESET + "\t" + to_bin(i)[-3:], end="\t")
     print("\n")
 
 
@@ -296,4 +304,5 @@ def menu():
 
 if __name__ == "__main__":
     generar_stack()
+    iniciar_flags()
     menu()
