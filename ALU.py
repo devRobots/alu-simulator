@@ -71,7 +71,7 @@ def operacion_sub(params):
 
         if b > a:
             flags["SF"] = to_bin(1)
-            stack[params[0]] = to_bin((a - b) + 1)
+            stack[params[0]] = to_bin(~(a - b))
         else:
             stack[params[0]] = res
     else:
@@ -230,10 +230,15 @@ def to_bin(n):
     y lo normaliza a una longitud de 8 bits
     """
     bin_raw = bin(n)
+    flag = True if '-' in bin_raw else False
     b_index = bin_raw.index('b') + 1
     res = bin_raw[b_index:]
     while len(res) < 8:
         res = '0' + res
+    if flag:
+        res = res.replace('0', 'x')
+        res = res.replace('1', '0')
+        res = res.replace('x', '1')
     res = '0b' + res
     return res
 
