@@ -64,9 +64,10 @@ def operacion_sub(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
-        res = to_bin(a - b)
+        resta = a - b
+        res = to_bin(resta)
 
-        if not res:
+        if not resta:
             flags["ZF"] = to_bin(1)
 
         if b > a:
@@ -87,14 +88,14 @@ def operacion_add(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
-        res = to_bin(a + b)
+        suma = a + b
+        res = to_bin(suma)
 
-        if not res:
+        if not suma:
             flags["ZF"] = to_bin(1)
 
         if len(res) > 8:
-            total = len(res) - 8
-            res[total:]
+            res = '0b' + res[-8:]
 
             flags["CF"] = to_bin(1)
 
@@ -131,9 +132,10 @@ def operacion_and(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
-        res = to_bin(a & b)
+        and1 = a & b
+        res = to_bin(and1)
 
-        if not res:
+        if not and1:
             flags["ZF"] = to_bin(1)
 
         stack[params[0]] = res
@@ -150,9 +152,10 @@ def operacion_or(params):
         a = obtener_dir(params[0])
         b = obtener_dir(params[1])
 
-        res = to_bin(a | b)
+        or1 = a | b
+        res = to_bin(or1)
 
-        if not res:
+        if not or1:
             flags["ZF"] = to_bin(1)
 
         stack[params[0]] = res
