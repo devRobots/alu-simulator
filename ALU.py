@@ -5,7 +5,7 @@ from exceptions import *
 
 operaciones = [
     "DIV", "ADD", "SUB",
-    "NEG", "AND", "OR",
+    "NOT", "AND", "OR",
     "RST", "EXIT"
 ]
 stack = {
@@ -120,7 +120,7 @@ def operacion_neg(params):
 
         flags["SF"] = to_bin(1)
     else:
-        raise ParametrosIncorrectosExcepcion("NEG", 1)
+        raise ParametrosIncorrectosExcepcion("NOT", 1)
 
 
 def operacion_and(params):
@@ -187,7 +187,7 @@ def procesar(entrada):
         "DIV": operacion_div,
         "ADD": operacion_add,
         "SUB": operacion_sub,
-        "NEG": operacion_neg,
+        "NOT": operacion_neg,
         "AND": operacion_and,
         "OR": operacion_or,
         "RST": reset,
